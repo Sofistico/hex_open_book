@@ -11,6 +11,7 @@
       },
     },
   },
+  "key.hex_open_book.open": "Open Hex Notebook",
 
   hexcasting: {
     action: {

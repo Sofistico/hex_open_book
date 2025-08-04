@@ -64,6 +64,7 @@ dependencies {
     // we use modLocalRuntime to add these to the development runtime, but not at compile time or for consumers of this project
     // but we use PAUCAL for datagen, so that's part of the actual implementation
     modImplementation(libs.paucal.forge)
+    modImplementation(libs.patchouli.forge)
     modLocalRuntime(libs.patchouli.forge)
     modLocalRuntime(libs.caelus)
     modLocalRuntime(libs.inline.forge) { isTransitive = false }
