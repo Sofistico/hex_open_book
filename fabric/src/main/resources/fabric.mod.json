@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "id": "hex_open_book",
+  "version": "${version}",
+  "name": "Hex Open Book",
+  "description": "Hex Open Book addon for Hex Casting",
+  "authors": [
+    "sofistico"
+  ],
+  "contact": {
+    "homepage": "https://sofistico.github.io/hex_open_book",
+    "sources": "https://github.com/Sofistico/hex_open_book"
+  },
+  "license": "MIT",
+  "icon": "assets/hex_open_book/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [{
+      "adapter": "kotlin",
+      "value": "io.github.sofistico.hex_open_book.fabric.FabricHexOpenBook"
+    }],
+    "client": [{
+      "adapter": "kotlin",
+      "value": "io.github.sofistico.hex_open_book.fabric.FabricHexOpenBookClient"
+    }],
+    "modmenu": [{
+      "adapter": "kotlin",
+      "value": "io.github.sofistico.hex_open_book.fabric.FabricHexOpenBookModMenu"
+    }]
+  },
+  "mixins": [
+    "hex_open_book-common.mixins.json",
+    "hex_open_book-fabric.mixins.json"
+  ],
+  "depends": {
+    "minecraft": "${versions.minecraft}",
+    "fabricloader": ">=${versions.fabric_loader}",
+    "fabric-api": ">=${versions.fabric_api}",
+    "fabric-language-kotlin": ">=${versions.kotlin_fabric}",
+    "architectury": ">=${versions.architectury}",
+    "hexcasting": ">=${versions.hexcasting_dependency}",
+    "cloth-config": ">=${versions.clothConfig}"
+  },
+  "suggests": {
+    "modmenu": ">=${versions.modMenu}"
+  }
+}

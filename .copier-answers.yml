@@ -1,0 +1,20 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+# https://copier.readthedocs.io/en/stable/updating/#never-change-the-answers-file-manually
+_commit: v2.0.4
+_src_path: gh:FallingColors/hexdummy
+advanced: true
+capitalize_platforms: false
+classname: HexOpenBook
+default_branch: main
+description: Hex Open Book addon for Hex Casting
+display_name: Hex Open Book
+github_repo: hex_open_book
+github_user: sofistico
+homepage_url: https://sofistico.github.io/hex_open_book
+java_package: io.github.sofistico.hex_open_book
+kotlin_package: io.github.sofistico.hex_open_book
+mappings_name: Mojmap
+minecraft_version_in_mod_version: false
+mod_version: 0.1.0
+modid: hex_open_book
+sources_url: https://github.com/Sofistico/hex_open_book

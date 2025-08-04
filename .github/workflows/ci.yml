@@ -1,0 +1,91 @@
+name: Run tests
+
+on:
+  push:
+    branches:  # FIXME: reenable for v2 when ready
+      - v1
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+        java-version:
+          - 17
+        mappings:
+          - mojmap
+          - yarn
+        nox-tags:
+          - build
+          - genSources
+        include:
+          # artifacts forbid `:` in filenames because of NTFS
+          # so just upload from Windows since hexdoc already accounts for that
+          - os: windows-latest
+            java-version: 17
+            nox-tags: build
+            upload: true
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java-version }}
+
+      - name: Install Nox
+        run: pip install nox
+
+      - name: Copy template
+        run: nox --keywords ${{ matrix.mappings }} --tags setup
+
+      - uses: gradle/actions/setup-gradle@v3
+        with:
+          build-root-directory: .ctt/${{ matrix.mappings }}
+
+      - name: Run tests
+        run: nox --keywords ${{ matrix.mappings }} --tags ${{ matrix.nox-tags }}
+      
+      # note: we have to kill java because gradle leaves an orphaned process that interferes with git clean
+      - name: Prepare rendered project for upload
+        if: matrix.upload
+        run: |
+          mkdir _build
+          cp .ctt/${{ matrix.mappings }}/*/build/libs/*.jar _build
+          cd .ctt/${{ matrix.mappings }}
+          taskkill /F /IM "java.exe"
+          git config core.longPaths true
+          git clean -fdX --exclude "!_site/"
+          rm -Recurse -Force .git
+
+      - name: Upload full rendered project artifact
+        if: matrix.upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: example-project-${{ matrix.mappings }}
+          path: .ctt/${{ matrix.mappings }}/
+
+      - name: Upload build artifact
+        if: matrix.upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: example-build-${{ matrix.mappings }}
+          path: _build/
+
+  # dummy job, just makes it easier to require all tests to pass before merging PRs
+  tests-passed:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Celebrate
+        run: echo "yay!"

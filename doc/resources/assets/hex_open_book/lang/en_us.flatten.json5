@@ -1,0 +1,8 @@
+{
+  hexdoc: {
+    hex_open_book: {
+      title: "Hex Open Book Book",
+      description: "Hex Open Book addon for Hex Casting",
+    },
+  }
+}
